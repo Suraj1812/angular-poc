@@ -1,0 +1,123 @@
+<div class="survey-list-container">
+  <div class="header-actions">
+    <h2>Surveys</h2>
+    <app-permission-button
+      permission="SURVEY_EDIT"
+      (click)="createSurvey()"
+      btnClass="btn btn-primary"
+    >
+      Create Survey
+    </app-permission-button>
+  </div>
+
+  <div class="filters-section">
+    <div class="row">
+      <div class="col-md-6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search by name..."
+          [formControl]="searchControl"
+        />
+      </div>
+      <div class="col-md-3">
+        <select class="form-control" [formControl]="statusFilter">
+          <option value="all">All Status</option>
+          <option value="draft">Draft</option>
+          <option value="published">Published</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner-border" role="status"></div>
+  </div>
+
+  <table
+    *ngIf="!loading && paginatedSurveys.length > 0"
+    class="table table-striped table-hover"
+  >
+    <thead>
+      <tr>
+        <th>Survey Name</th>
+        <th>Status</th>
+        <th>Created Date</th>
+        <th>Responses</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let survey of paginatedSurveys">
+        <td data-label="Survey Name">{{ survey.name }}</td>
+        <td data-label="Status">
+          <span
+            class="badge"
+            [ngClass]="
+              survey.status === 'published' ? 'badge-success' : 'badge-warning'
+            "
+          >
+            {{ survey.status }}
+          </span>
+        </td>
+        <td data-label="Created Date">
+          {{ survey.createdDate | date: "mediumDate" }}
+        </td>
+        <td data-label="Responses">{{ survey.responseCount }}</td>
+        <td data-label="Actions">
+          <button
+            class="btn btn-sm btn-info mr-1"
+            (click)="viewSurvey(survey.id)"
+          >
+            View
+          </button>
+          <app-permission-button
+            permission="SURVEY_EDIT"
+            (click)="editSurvey(survey.id)"
+            btnClass="btn btn-sm btn-warning mr-1"
+          >
+            Edit
+          </app-permission-button>
+          <app-permission-button
+            permission="SURVEY_RESULTS_VIEW"
+            (click)="viewSurvey(survey.id)"
+            btnClass="btn btn-sm btn-success"
+          >
+            Results
+          </app-permission-button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && paginatedSurveys.length === 0" class="empty-state">
+    <p>No surveys found</p>
+  </div>
+
+  <div
+    *ngIf="!loading && filteredSurveys.length > 0"
+    class="pagination-section"
+  >
+    <div class="pagination-info">
+      Showing {{ startIndex }} to {{ endIndex }} of
+      {{ filteredSurveys.length }} surveys
+    </div>
+    <div class="pagination-controls">
+      <button
+        class="btn btn-sm btn-outline-primary"
+        (click)="prevPage()"
+        [disabled]="currentPage === 1 || totalPages === 0"
+      >
+        Previous
+      </button>
+      <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button
+        class="btn btn-sm btn-outline-primary"
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages || totalPages === 0"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+</div>

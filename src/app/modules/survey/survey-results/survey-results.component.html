@@ -1,0 +1,94 @@
+<div class="survey-results-container">
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && survey">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>{{ survey.name }} - Results</h2>
+      <span class="badge badge-secondary">{{ survey.status }}</span>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <div class="card text-white bg-primary">
+          <div class="card-body">
+            <h5 class="card-title">Total Responses</h5>
+            <p class="card-text display-4">{{ survey.responseCount }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-success">
+          <div class="card-body">
+            <h5 class="card-title">Completion Rate</h5>
+            <p class="card-text display-4">
+              {{ getCompletionRate() | number: "1.0-0" }}%
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-white bg-info">
+          <div class="card-body">
+            <h5 class="card-title">Questions</h5>
+            <p class="card-text display-4">{{ survey.questions.length }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngFor="let question of survey.questions; let i = index"
+      class="card mb-4"
+    >
+      <div class="card-header">
+        <h5 class="mb-0">Q{{ i + 1 }}: {{ question.text }}</h5>
+        <small class="text-muted">
+          {{ question.type }} |
+          {{ question.required ? "Required" : "Optional" }}
+        </small>
+      </div>
+      <div class="card-body">
+        <div *ngIf="question.type === 'single-choice'">
+          <h6>Response Distribution</h6>
+          <div *ngFor="let result of getQuestionResults(question)" class="mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>{{ result.option }}</span>
+              <span
+                >{{ result.count }} ({{
+                  result.percentage | number: "1.0-1"
+                }}%)</span
+              >
+            </div>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                [style.width.%]="result.percentage"
+                role="progressbar"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="question.type === 'text'">
+          <h6>Text Responses</h6>
+          <div class="list-group">
+            <div
+              *ngFor="let response of getTextResponses(question.id)"
+              class="list-group-item"
+            >
+              {{ response }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !survey" class="alert alert-warning">
+    Survey not found
+  </div>
+</div>

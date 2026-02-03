@@ -1,0 +1,188 @@
+<div class="survey-form-container">
+  <h2>{{ surveyId ? "Edit Survey" : "Create Survey" }}</h2>
+
+  <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+    <div class="form-group">
+      <label for="name">Survey Title *</label>
+      <input
+        type="text"
+        id="name"
+        class="form-control"
+        formControlName="name"
+        placeholder="Enter survey title"
+      />
+      <div
+        *ngIf="surveyForm.get('name').invalid && surveyForm.get('name').touched"
+        class="text-danger"
+      >
+        Survey title is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        class="form-control"
+        formControlName="description"
+        rows="3"
+        placeholder="Enter survey description"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="status">Status *</label>
+      <select id="status" class="form-control" formControlName="status">
+        <option value="draft">Draft</option>
+        <option value="published">Published</option>
+      </select>
+    </div>
+
+    <hr />
+
+    <h4>Questions</h4>
+
+    <div formArrayName="questions">
+      <div
+        *ngFor="let question of questions.controls; let i = index"
+        [formGroupName]="i"
+        class="question-card card mb-3"
+      >
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h5 class="card-title mb-0">Question {{ i + 1 }}</h5>
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              (click)="removeQuestion(i)"
+            >
+              Remove
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label>Question Text *</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="text"
+              placeholder="Enter question text"
+            />
+            <div
+              *ngIf="
+                questions.at(i).get('text').invalid &&
+                questions.at(i).get('text').touched
+              "
+              class="text-danger"
+            >
+              Question text is required
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Question Type</label>
+                <select
+                  class="form-control"
+                  formControlName="type"
+                  (change)="onQuestionTypeChange(i, $event.target.value)"
+                >
+                  <option
+                    *ngFor="let type of questionTypes"
+                    [value]="type.value"
+                  >
+                    {{ type.label }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-check mt-4">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="required{{ i }}"
+                  formControlName="required"
+                />
+                <label class="form-check-label" for="required{{ i }}">
+                  Required Question
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div
+            *ngIf="questions.at(i).get('type').value === 'single-choice'"
+            class="options-section mt-3"
+          >
+            <h6>Options</h6>
+            <div formArrayName="options">
+              <div
+                *ngFor="
+                  let option of getQuestionOptions(i).controls;
+                  let j = index
+                "
+                class="input-group mb-2"
+              >
+                <input
+                  type="text"
+                  class="form-control"
+                  [formControlName]="j"
+                  placeholder="Enter option text"
+                />
+                <div class="input-group-append">
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    (click)="removeOption(i, j)"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                (click)="addOption(i)"
+              >
+                Add Option
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-secondary mb-3"
+      (click)="addQuestion()"
+    >
+      Add Question
+    </button>
+
+    <div class="form-actions mt-4">
+      <button
+        type="submit"
+        class="btn btn-primary mr-2"
+        [disabled]="surveyForm.invalid"
+      >
+        {{ surveyId ? "Update" : "Create" }} Survey
+      </button>
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="cancel()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
