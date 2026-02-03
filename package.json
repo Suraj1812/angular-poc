@@ -2,12 +2,12 @@
   "name": "angular-poc",
   "version": "0.0.0",
   "engines": {
-    "node": "16.x"
+    "node": "24.x"
   },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --source-map=false",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
