@@ -2,6 +2,7 @@
   padding: 24px;
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   min-height: 100vh;
+  margin-top: 0;
 }
 
 .dashboard-header {
@@ -11,6 +12,7 @@
   margin-bottom: 32px;
   flex-wrap: wrap;
   gap: 24px;
+    margin-top: 0;
   
  h1 {
   margin: 0;

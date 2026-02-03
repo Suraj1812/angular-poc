@@ -1,10 +1,16 @@
 <div class="survey-list-container">
   <div class="header-actions">
-    <h2>Surveys</h2>
+    <div class="flex flex-col">
+      <span class="text-[26px] font-bold text-slate-900">Surveys</span>
+      <span
+        class="w-8 h-[3px] bg-gradient-to-r from-blue-500 to-indigo-500 rounded mt-1"
+      ></span>
+    </div>
+
     <app-permission-button
       permission="SURVEY_EDIT"
       (click)="createSurvey()"
-      btnClass="btn btn-primary"
+      btnClass="px-6 py-3 bg-gradient-to-br from-violet-500 to-violet-400 text-white font-semibold text-[14px] rounded-[10px] shadow-md shadow-violet-500/30 transition-all duration-300 relative cursor-pointer"
     >
       Create Survey
     </app-permission-button>
