@@ -1,8 +1,7 @@
 {
   "build": {
     "env": {
-      "NODE_OPTIONS": "--openssl-legacy-provider",
-      "SOURCE_MAP_CONSUMER_WASM": "node_modules/source-map/lib/mappings.wasm"
+      "NODE_OPTIONS": "--openssl-legacy-provider"
     }
   }
 }

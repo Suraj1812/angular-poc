@@ -2,7 +2,7 @@
   "name": "angular-poc",
   "version": "0.0.0",
   "engines": {
-    "node": "24.x"
+    "node": "16.x"
   },
   "scripts": {
     "ng": "ng",
