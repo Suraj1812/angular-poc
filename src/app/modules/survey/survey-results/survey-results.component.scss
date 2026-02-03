@@ -44,58 +44,6 @@
     }
   }
 
-  .stats-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
-
-    .card {
-      border: none;
-      border-radius: 10px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      text-align: center;
-
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      }
-
-      .card-body {
-        padding: 25px 20px;
-      }
-
-      .card-title {
-        font-size: 0.95rem;
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: 10px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      .card-text {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin: 0;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      &.bg-primary {
-        background: linear-gradient(135deg, #007bff, #0056b3);
-      }
-
-      &.bg-success {
-        background: linear-gradient(135deg, #28a745, #1e7e34);
-      }
-
-      &.bg-info {
-        background: linear-gradient(135deg, #17a2b8, #138496);
-      }
-    }
-  }
-
   .question-results {
     .card {
       border: none;
@@ -280,4 +228,20 @@
       }
     }
   }
+}
+
+.stats-cards {
+  width: 100%;
+}
+
+.stats-cards .card {
+  width: 100%;
+  background: #ffffff !important;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 12px;
+}
+
+.stats-cards .card-title,
+.stats-cards .card-text {
+  color: #000000 !important;
 }

@@ -11,30 +11,32 @@
       <span class="badge badge-secondary">{{ survey.status }}</span>
     </div>
 
-    <div class="row mb-4">
+    <div class="stats-cards row mb-4">
       <div class="col-md-4">
-        <div class="card text-white bg-primary">
+        <div class="card">
           <div class="card-body">
             <h5 class="card-title">Total Responses</h5>
-            <p class="card-text display-4">{{ survey.responseCount }}</p>
+            <p class="card-text">{{ survey.responseCount }}</p>
           </div>
         </div>
       </div>
+
       <div class="col-md-4">
-        <div class="card text-white bg-success">
+        <div class="card">
           <div class="card-body">
             <h5 class="card-title">Completion Rate</h5>
-            <p class="card-text display-4">
+            <p class="card-text">
               {{ getCompletionRate() | number: "1.0-0" }}%
             </p>
           </div>
         </div>
       </div>
+
       <div class="col-md-4">
-        <div class="card text-white bg-info">
+        <div class="card">
           <div class="card-body">
             <h5 class="card-title">Questions</h5>
-            <p class="card-text display-4">{{ survey.questions.length }}</p>
+            <p class="card-text">{{ survey.questions.length }}</p>
           </div>
         </div>
       </div>

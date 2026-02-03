@@ -35,7 +35,7 @@ export class LoginComponent {
       const user = this.authService.login(username);
 
       if (user) {
-        this.router.navigate([`/t/${user.tenantId}/surveys`]);
+        this.router.navigate([`/t/${user.tenantId}/dashboard`]);
       } else {
         this.errorMessage = "Invalid username";
       }
@@ -45,5 +45,17 @@ export class LoginComponent {
   quickLogin(username: string) {
     this.loginForm.patchValue({ username });
     this.login();
+  }
+
+  getUserIconClass(label: string): string {
+    if (label.includes("Admin")) return "admin";
+    if (label.includes("Manager")) return "manager";
+    return "viewer";
+  }
+
+  getUserIcon(label: string): string {
+    if (label.includes("Admin")) return "fa-user-shield";
+    if (label.includes("Manager")) return "fa-user-gear";
+    return "fa-user";
   }
 }

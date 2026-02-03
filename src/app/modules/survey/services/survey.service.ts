@@ -44,7 +44,7 @@ export class SurveyService {
       id: 2,
       name: "Product Feedback",
       description: "Collect feedback about our products",
-      status: "draft",
+      status: "published",
       createdDate: new Date("2024-02-01"),
       responseCount: 0,
       tenantId: "tenant1",

@@ -1,73 +1,66 @@
 <div class="login-container">
   <div class="login-card">
-    <div class="card-header">
-      <h2>Welcome Back</h2>
-      <div class="subtitle">Sign in to your account</div>
-    </div>
-    
-    <div class="card-body">
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <div class="input-wrapper">
-            <input 
-              type="text" 
-              id="username" 
-              class="form-control" 
+    <div class="left-section">
+      <div class="header">
+        <h1>LOGIN</h1>
+        <p>How to get started at?</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
+        <div class="input-group">
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
               formControlName="username"
-              placeholder="Enter your username">
-            <div class="input-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-            </div>
+              placeholder="Username"
+            />
           </div>
-          <div *ngIf="loginForm.get('username').invalid && loginForm.get('username').touched" 
-               class="error-message">
+          <div
+            *ngIf="
+              loginForm.get('username').invalid &&
+              loginForm.get('username').touched
+            "
+            class="error-message"
+          >
             Username is required
           </div>
         </div>
-        
-        <button 
-          type="submit" 
-          class="login-button" 
-          [disabled]="loginForm.invalid">
-          Sign In
+
+        <button
+          type="submit"
+          class="login-button"
+          [disabled]="loginForm.invalid"
+        >
+          Login Now
         </button>
-        
-        <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-          {{errorMessage}}
+
+        <div *ngIf="errorMessage" class="error-container">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
         </div>
       </form>
-      
+
       <div class="divider">
-        <span>Or sign in quickly</span>
+        <span>Quick Login</span>
       </div>
-      
-      <div class="quick-login-title">Demo Accounts</div>
-      
-      <div class="quick-login-buttons">
-        <button 
-          *ngFor="let user of users" 
-          type="button" 
-          class="quick-login-btn"
-          (click)="quickLogin(user.username)">
-          <div class="user-icon" [ngClass]="user.username.includes('admin') ? 'admin' : 
-                                   user.username.includes('manager') ? 'manager' : 'viewer'">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+
+      <div class="quick-login-container">
+        <button
+          *ngFor="let user of users"
+          type="button"
+          class="quick-login-button"
+          (click)="quickLogin(user.username)"
+        >
+          <div class="user-icon" [ngClass]="getUserIconClass(user.label)">
+            <i class="fas" [ngClass]="getUserIcon(user.label)"></i>
           </div>
-          <span>{{user.label}}</span>
+          <span>{{ user.label }}</span>
         </button>
       </div>
     </div>
-    
-    <div class="card-footer">
-      <div>Multi-Tenant Survey Management System</div>
-      <div class="mt-1 text-sm">Angular 8.2.14 POC</div>
+
+    <div class="right-section">
+      <div class="blur-overlay"></div>
     </div>
   </div>
 </div>
