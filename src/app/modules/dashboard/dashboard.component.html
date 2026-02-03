@@ -1,7 +1,149 @@
-<div class="chart-wrapper">
-  <button class="fake-btn" (click)="generateFakeData()">
-    Generate Fake Data
-  </button>
+<div class="dashboard-container">
+  <div class="mock-badge" *ngIf="mockMode">MOCK DATA MODE</div>
 
-  <canvas id="radarChart"></canvas>
+  <div class="dashboard-header">
+    <h1>Analytics Dashboard</h1>
+
+    <div class="dashboard-controls">
+      <div class="date-filters" *ngIf="hasData">
+        <div class="btn-group">
+          <button
+            type="button"
+            [class.active]="dateRange === '7days'"
+            (click)="onDateRangeChange('7days')"
+          >
+            Last 7 Days
+          </button>
+          <button
+            type="button"
+            [class.active]="dateRange === '30days'"
+            (click)="onDateRangeChange('30days')"
+          >
+            Last 30 Days
+          </button>
+          <button
+            type="button"
+            [class.active]="dateRange === 'custom'"
+            (click)="onDateRangeChange('custom')"
+          >
+            Custom Range
+          </button>
+        </div>
+
+        <div class="custom-range" *ngIf="showCustomRange">
+          <div class="date-inputs">
+            <div class="input-group">
+              <label>From</label>
+              <input type="date" [(ngModel)]="startDate" />
+            </div>
+            <div class="input-group">
+              <label>To</label>
+              <input type="date" [(ngModel)]="endDate" />
+            </div>
+            <button
+              (click)="applyCustomDateRange()"
+              [disabled]="!startDate || !endDate"
+            >
+              Apply Filter
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="mock-data-btn" (click)="generateMockData()">
+          {{ hasData ? "Regenerate Mock Data" : "Generate Mock Data" }}
+        </button>
+
+        <button
+          *ngIf="canExport && hasData"
+          class="export-btn"
+          (click)="exportData()"
+          [disabled]="exporting"
+        >
+          <span *ngIf="!exporting">Export CSV</span>
+          <span *ngIf="exporting">Exporting...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-overlay" *ngIf="loading">
+    <div class="spinner" role="status">
+      <span>Loading Dashboard...</span>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!hasData && !loading">
+    <div class="empty-content">
+      <div class="empty-icon"></div>
+      <h2>No Dashboard Data Available</h2>
+      <p>
+        Click the button below to generate sample mock data and see how the
+        dashboard looks with real analytics.
+      </p>
+      <button class="empty-btn" (click)="generateMockData()">
+        Generate Mock Data
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="hasData">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-content">
+          <h3>Total Surveys</h3>
+          <p>{{ totalSurveys }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-content">
+          <h3>Total Responses</h3>
+          <p>{{ totalResponses }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-content">
+          <h3>Participation Rate</h3>
+          <p>{{ participationRate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-wrapper">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-wrapper">
+          <canvas id="lineChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <h3>Top 5 Surveys by Responses</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Survey Name</th>
+              <th>Response Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let survey of topSurveys">
+              <td>{{ survey.name }}</td>
+              <td>{{ survey.responseCount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,6 +1,11 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { User, Role } from "../models/permission.model";
+import {
+  User,
+  Role,
+  Permission,
+  ROLE_PERMISSIONS,
+} from "../models/permission.model";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
@@ -74,5 +79,29 @@ export class AuthService {
 
   getUsersByTenant(tenantId: string): User[] {
     return this.users.filter((user) => user.tenantId === tenantId);
+  }
+
+  hasPermission(permission: Permission): boolean {
+    const user = this.getCurrentUser();
+    if (!user || !user.role) return false;
+
+    const userPermissions = ROLE_PERMISSIONS[user.role];
+    return userPermissions ? userPermissions.includes(permission) : false;
+  }
+
+  hasRole(role: Role): boolean {
+    const user = this.getCurrentUser();
+    if (user && user.role) {
+      return user.role === role;
+    }
+    return false;
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getCurrentUser();
+  }
+
+  getToken(): string {
+    return "demo-token";
   }
 }
